@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Login / Sign Up</title>
+    <link rel="stylesheet" href="../../assets/styling.css">
+</head>
+<meta charset="ISO-8859-1">
+<title>Login/SignUp</title>
+
+<body class="loginbody" style="overflow: auto;" >
+    <div class="container">
+        <div class="fontstyle" style="text-align: center; margin-top: 20PX; font-size: x-large;color: white;">WELCOME
+            TO GamerPath
+        </div>
+            <div *ngIf="loginerror" class="alert alert-dismissible alert-danger">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Oh snap! </strong> Invalid Email or Password and try
+                Logging in again.
+            </div>
+        <div *ngIf="signuperror" class="alert alert-dismissible alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4 class="alert-heading">Hey Gamer!</h4>
+            <p class="mb-0">Gamer with this email already exist try logging in instead </p>
+        </div>
+        <div class="row" style="margin: 5%">
+            <div class="col-md-4  formbox">
+                <div class="fontstyle" style="text-align: center; font-weight: bold;  color: white; font-size: 25px">Login
+                </div>
+
+                <form class="loginform" id="loginform" novalidate>
+
+                    <div class="form-group">
+                        <label>Email address</label> <input type="email" class="form-control form-control-sm validate"
+                            name="loginemail" placeholder="Enter email" [(ngModel)]="loginEmail">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Password</label> <input type="password" class="form-control form-control-sm validate"
+                            name="loginpassword" placeholder="Password" [(ngModel)]="loginPassword">
+                    </div>
+                    <div align="center" style="padding-top: 30px">
+                        <button type="submit" class="btn btn-secondary" (click)="loginUser()">Login</button>
+                    </div>
+                   
+                    <div style="text-align: center; margin-top: 20PX;">New User?
+                        Sign Up</div>
+                </form>
+            </div>
+
+
+            <div class="col-md-4 offset-4 formbox">
+
+                <form class="signupform" id="signupform" novalidate>
+                    <div class="fontstyle" style="text-align: center; font-weight: bold; color:white; font-size: 25px">Sign
+                        Up
+                    </div>
+
+                    <div class="form-group">
+                        <label>Gamer Tag</label> <input type="text" class="form-control form-control-sm validate"
+                            name="gamertag" placeholder="Enter Gamer Tag" [(ngModel)]="user.gamertag">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Name</label> <input type="text" class="form-control form-control-sm validate" name="name"
+                            placeholder="Enter Full Name" [(ngModel)]="user.name">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email Address</label> <input type="email" class="form-control form-control-sm validate"
+                            name="email" placeholder="Enter email" [(ngModel)]="user.email">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Password</label> <input type="password" class="form-control form-control-sm validate"
+                            name="password" id="idpassword" placeholder="Password" [(ngModel)]="user.password">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Confirm Password</label> <input type="password"
+                            class="form-control form-control-sm validate" name="confirmpassword"
+                            placeholder="Confirm Password">
+                    </div>
+
+                    <div class="custom-control custom-radio">
+                        <input id="male" type="radio" class="custom-control-input" value="male"
+                            (change)="change('male')" name="gender">
+                        <label class="custom-control-label" for="male">Male</label>
+                    </div>
+
+                    <div class="custom-control custom-radio">
+                        <input id="female" type="radio" class="custom-control-input" (change)="change('female')"
+                            name="gender">
+                        <label class="custom-control-label" for="female">Female</label>
+                    </div>
+
+                    <div align="center" style="padding-top: 30px">
+                        <button class="btn btn-secondary" (click)="createUser()">Sign
+                            Up and Login
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+
+</html>

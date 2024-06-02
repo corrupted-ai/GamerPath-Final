@@ -1,0 +1,38 @@
+<head>
+        <meta charset="ISO-8859-1">
+        <link rel="stylesheet" href="../../assets/styling.css">
+</head>
+<div *ngIf="loggedin == 'true'" class="cardbox">
+                <div *ngIf="uploaded" class="alert alert-dismissible alert-primary">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <strong>Uploaded Succesfully!</strong> <a routerLink="/login" class="alert-link">Login to make changes</a>
+                </div>
+        <div class="card border-info mb-3" id="left-profile">
+                <h4 class="card-header">Profile</h4>
+
+                <img *ngIf="!profilepic" style="height: 160px; width: 100%; display: block;padding:20px"
+                        src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22318%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20318%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_158bd1d28ef%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A16pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_158bd1d28ef%22%3E%3Crect%20width%3D%22318%22%20height%3D%22180%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22129.359375%22%20y%3D%2297.35%22%3EImage%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+                        alt="Card image">
+
+                <img *ngIf="profilepic" style="height: 160px; width: 100%; display: block;padding:20px"
+                alt="image"
+                [src]="'data:image/png;base64,'+ user.img" >
+                <div class="card-body" style="font-family: 'Courier New', Courier, monospace;" *ngIf="!profilepic &&!uploaded">
+                        <span>Hey!You can Upload a profile Picture</span>
+                        <div class="form-group" style="margin-top: 5px;">
+                                <input type="file" class="form-control-file" (change)="selectfile($event)"  id="postimage" aria-describedby="fileHelp"  name="image" accept="image/*">
+                        </div>
+                        <button type="button" (click)="addimage()" class="btn btn-sm btn-primary">Upload Image</button>
+                </div>
+                
+
+                <h5 class="card-header">{{user.gamertag}}</h5>
+
+                <div class="card-body">
+                        <h6 class="card-title">{{user.name}}</h6>
+                        <h6>Navigator Score : {{user.score}}</h6>
+                        <h6>{{user.email}}</h6>
+                        <h6>{{user.gender}}</h6>
+                </div>
+        </div>
+</div>

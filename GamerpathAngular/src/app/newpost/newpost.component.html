@@ -1,0 +1,71 @@
+<head>
+        <meta charset="ISO-8859-1">
+        <link rel="stylesheet" href="../../assets/styling.css">
+    </head>
+    <div *ngIf="loggedin == 'false'" class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Hey Gamer ! </strong>Log in to Comment , Reply and to Add Friends
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <app-navbar></app-navbar>
+    
+    <body style="overflow-x: hidden;margin-top: 10px;">
+        <div class="row">
+            <div class="col-lg-2 cardbox left" id="info">
+                <app-user></app-user>   
+                <app-categories></app-categories>
+            </div>
+            <div class="col-lg-7 cardbox middle">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/homepage">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/yourposts">Your
+                            Posts</a>
+                    </li>
+                    <span style="position: absolute; right: 5px;">
+                        <button type="button" 
+                            class="btn btn-outline-info">+
+                            New Post</button>
+                    </span>
+                </ul>
+    
+                <div id="myTabContent" class="tab-content">
+                    <div class="tab-pane fade show active" id="newpost">
+                            <div *ngIf=posted class="alert alert-dismissible alert-success">
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    <strong>Posted Succesfully</strong> You can view the post in  <a routerLink="/yourposts"  class="alert-link">your posts</a>.
+                            </div>
+                            <div *ngIf=postinfo class="alert alert-dismissible alert-danger">
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    <strong>Oh snap!</strong>  Question / Post cannot be empty.
+                            </div>
+                        <form id="newpostform" enctype="multipart/form-data">
+                                <div class="form-group">
+                                        <label for="post">Question / Post</label>
+                                        <textarea name="post" [(ngModel)]="post.postinfo" class="form-control" rows="3"></textarea>
+                                </div>
+                                <div class="form-group">
+                                        <label for="tage">Enter Tags</label>
+                                        <input name="tags" type="text" class="form-control" [(ngModel)]="tags" placeholder="Eg : Action,Arcade,Multiplayer,Co-op">
+                                </div>
+                                <div>Upload Image if required</div>
+                                <div class="form-group">
+                                    <input type="file" class="form-control-file" (change)="selectfile($event)"  id="postimage" aria-describedby="fileHelp"  name="image" accept="image/*">
+                                </div>
+                                <button type="button" (click)="addpost()" class="btn btn-primary">Submit Post</button>
+                        </form>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="col-lg-2 cardbox right">
+                    <app-search></app-search>
+                    <app-contributors></app-contributors>
+            </div>
+        </div>
+    </body>
+    

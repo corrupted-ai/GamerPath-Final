@@ -1,0 +1,82 @@
+<head>
+    <meta charset="ISO-8859-1">
+    <link rel="stylesheet" href="../../assets/styling.css">
+</head>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<a class="navbar-brand" routerLink="/homepage">Gamerpath</a>
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
+    aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+</button>
+
+<ul class="navbar-nav mr-auto" >
+    <li class="nav-item">
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="text" style="width: 500px;margin-left: 200px;"
+                placeholder="Search posts">
+            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </li>
+</ul>
+
+<button style="margin-left: 10px" class="form-inline my-2 my-lg-0"
+    class="btn btn-danger" routerLink = "/" type= "submit" >LOGOUT</button>
+</nav>
+<div style="text-align: center">Reported Posts</div> 
+<div style="color: aquamarine;">
+<body style="overflow-x: hidden;margin-top: 10px;">
+    <div class="row">
+        <div class="col-lg-2 cardbox left" id="info">
+        </div>
+        <div class="col-lg-7 cardbox middle">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" id="home" data-toggle="tab" href="#allposts">Home</a>
+                </li>
+                
+                <li class="nav-item dropdown" style="position: absolute; right: 20px;">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                        aria-expanded="false">Sort By </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" (click)="mostreported()" data-toggle="tab" href="#allposts">Most Reported</a>
+                        <a class="dropdown-item" (click)="recentlyreported()" data-toggle="tab" href="#allposts">Recent Reported</a>
+                    </div>
+                </li>
+
+                
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade show active" id="allposts">
+                        <h4>Posts</h4>
+                    <div class="post" *ngFor="let p of posts" style="width: 100%;">
+                    
+                        <table style="padding: 5px">
+                            <tbody>
+                                <tr>
+                                   
+                                    <td>
+                                        <h4>post</h4>
+                                        <span *ngFor="let tag of p.tags"
+                                            (click)="tagname(tag)"
+                                            class="badge badge-pill badge-info tags">{{tag}}</span>
+                                            {{p.postinfo}}
+                                            {{p.userid}}
+                                    </td> 
+                                </tr>
+                                    <tr>
+                                      <!-- <td> <button class="btn btn-primary" (click)="viewpost(p.id)" routerLink="/manage"> Hide Post</button> </td> -->
+                                      <td> <button class="btn btn-primary" (click)="delete(p.id)" > Remove Post</button></td>
+                                    </tr>    
+                            
+                                
+                            </tbody>
+                        </table>
+                       
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</body>

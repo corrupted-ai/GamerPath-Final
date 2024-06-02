@@ -1,0 +1,13 @@
+<head>
+        <meta charset="ISO-8859-1">
+        <link rel="stylesheet" href="../../assets/styling.css">
+</head>
+<h5 class="fixed">CATEGORIES</h5>
+
+<div class="fixedlist" style="z-index: 0;" *ngFor="let c of category">
+    <ul class="list-group">
+        <li class="list-group-item d-flex justify-content-between align-items-center" (click) = "searchCat(c)">
+           <a name = "cat"> {{c}} </a>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,30 @@
+<head>
+    <meta charset="ISO-8859-1">
+    <link rel="stylesheet" href="../../assets/styling.css">
+</head>
+<h5 class="fixed">Top Contributors</h5>
+<div  *ngFor="let u of users; let i= index;">
+    <ul class="list-group">
+        <div *ngIf="i == '0'">
+                <li (click)="search(u.id)" class="list-group-item d-flex justify-content-between align-items-center" style = "background-color: gold"  >
+                      <span style = "color:white">{{i + 1}}<span class="list" style="z-index: 0;">  {{u.gamertag}}</span> </span>
+                    </li>
+        </div>
+        <div *ngIf="i == '1'">
+                <li (click)="search(u.id)" class="list-group-item d-flex justify-content-between align-items-center" style = "background-color:silver" >
+                      <span style = "color:white">{{i + 1}}<span class="list" style="z-index: 0;"> {{u.gamertag}} </span></span>
+                    </li>
+        </div>
+        <div *ngIf="i == '2'">
+                <li (click)="search(u.id)" class="list-group-item d-flex justify-content-between align-items-center" style = "background-color:brown" >
+                      <span style = "color:white">{{i + 1}} <span class="list" style="z-index: 0;">{{u.gamertag}}</span></span>
+                </li>
+        </div>
+        <div *ngIf="i > 2">
+                <li (click)="search(u.id)" class="list-group-item d-flex justify-content-between align-items-center">
+                    <span  style = "color:white">{{i + 1}}  {{u.gamertag}}</span> 
+                    </li>
+        </div>
+     
+    </ul>
+</div>

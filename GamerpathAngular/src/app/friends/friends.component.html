@@ -1,0 +1,63 @@
+<head>
+    <meta charset="ISO-8859-1">
+    <link rel="stylesheet" href="../../assets/styling.css">
+</head>
+<div *ngIf="loggedin == 'false'" class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>Hey Gamer ! </strong>Log in to Comment , Reply and to Add Friends
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<app-navbar></app-navbar>
+
+<body style="overflow-x: hidden;margin-top: 10px;">
+    <div class="row">
+        <div class="col-lg-2 cardbox left" id="info">
+            <app-user></app-user>
+            <app-categories></app-categories>
+        </div>
+        <div class="col-lg-7 cardbox middle">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" id="home" data-toggle="tab" routerLink="/homepage">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a *ngIf="loggedin == 'true'" class="nav-link" data-toggle="tab" routerLink="/yourposts">Your
+                        Posts</a>
+                    <a *ngIf="loggedin == 'false'" class="nav-link disabled" data-toggle="tab" href="#profile">Your
+                        Posts</a>
+                </li>
+
+                <span style="position: absolute; right: 5px;">
+                    <button type="button" *ngIf="loggedin == 'true'" routerLink="/newpost"
+                        class="btn btn-outline-info">+
+                        New Post</button>
+                    <button type="button" *ngIf="loggedin == 'false'" class="btn btn-outline-info disabled">+
+                        New Post</button>
+                </span>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade show active" id="allposts">
+                    <table class="table table-hover" style="width: 100%;">
+                        <thead>
+                            <div *ngFor="let f of friends">
+                                <tr>
+                                    <th scope="col" style="width: 250px;">{{f.gamertag}}</th>
+                                    <th scope="col" style="width: 250px;"><button type="button" routerLink="/chat"
+                                            (click)="chat(f.id)" class="btn btn-outline-primary">Chat</button>
+                                    </th>
+                                    <th scope="col" style="width: 250px;"> <button type="button" class="btn btn-outline-danger"
+                                       (click)="removefriend(f.id)">Remove Friend</button></th>
+                                </tr>
+                            </div>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 cardbox right">
+            <app-search></app-search>
+            <app-contributors></app-contributors>
+        </div>
+    </div>
+</body>

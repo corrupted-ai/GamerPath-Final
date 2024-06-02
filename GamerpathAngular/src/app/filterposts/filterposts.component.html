@@ -1,0 +1,117 @@
+<head>
+    <meta charset="ISO-8859-1">
+    <link rel="stylesheet" href="../../assets/styling.css">
+</head>
+<div *ngIf="loggedin == 'false'" class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>Hey Gamer ! </strong>Log in to Comment , Reply and to Add Friends
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<app-navbar></app-navbar>
+
+<body style="overflow-x: hidden;margin-top: 10px;">
+    <div class="row">
+        <div class="col-lg-2 cardbox left" id="info">
+            <app-user></app-user>
+            <app-categories></app-categories>
+        </div>
+        <div class="col-lg-7 cardbox middle">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" id="home" data-toggle="tab" routerLink="/homepage">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a *ngIf="loggedin == 'true'" class="nav-link" data-toggle="tab" routerLink="/yourposts">Your
+                        Posts</a>
+                    <a *ngIf="loggedin == 'false'" class="nav-link disabled" data-toggle="tab" href="#profile">Your
+                        Posts</a>
+                </li>
+                <li class="nav-item dropdown" style="position: absolute; right: 140px;">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                        aria-expanded="false">Sort By </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" (click)="popular()" data-toggle="tab"
+                            href="#filterposts">Popularity</a>
+                        <a class="dropdown-item" (click)="newest()" data-toggle="tab" href="#filterposts">Newest
+                            First</a>
+                    </div>
+                </li>
+
+                <span style="position: absolute; right: 5px;">
+                    <button type="button" *ngIf="loggedin == 'true'" routerLink="/newpost"
+                        class="btn btn-outline-info">+
+                        New Post</button>
+                    <button type="button" *ngIf="loggedin == 'false'" class="btn btn-outline-info disabled">+
+                        New Post</button>
+                </span>
+            </ul>
+
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade show active" id="filterposts">
+                    <div class="post" *ngFor="let p of posts" style="width: 100%;">
+                        <table style="padding: 5px">
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 5px;padding-right: 50px;">
+                                        <button type="button" class="btn btn-outline-primary disabled">Replys</button>
+                                        <br>
+                                        <span class="numberreplies">{{p.replies.length}}</span> </td>
+                                    <td>
+                                        <h5>{{p.postinfo}}</h5>
+                                        <div *ngIf="p.image!=null" style="margin-top: 20px;">
+                                            <img style="height: 225px;width: 500px;" alt="image"
+                                                [src]="'data:image/png;base64,'+p.img" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            
+                        </table>
+                        <div class="badges">
+                            Tags :
+                            <span *ngFor="let tag of p.tags" (click)="tagname(tag)"
+                                class="badge badge-pill badge-info tags">{{tag}}</span>
+                        </div>
+                        <div class="votes">
+                            <div style="margin-left: 20px;">
+                                <span *ngIf="loggedin=='false'" class="vote"><button
+                                        class=" btn btn-outline-success btn-sm disabled"> &#11165;
+                                    </button>&nbsp;&nbsp;</span>
+                                <span *ngIf="loggedin=='true'"><span *ngIf="p.up=='false'" class=" vote"><button
+                                            (click)="upvote(p)" class=" btn btn-outline-success btn-sm"> &#11165;
+                                        </button>&nbsp;&nbsp;</span></span>
+                                <span *ngIf="loggedin=='true'"><span *ngIf="p.up=='true'" class="vote"><button
+                                            (click)="upvote(p)" class=" btn btn-success btn-sm"> &#11165;
+                                        </button>&nbsp;&nbsp; </span></span>
+                                <span class="badge badge-secondary">{{p.score}}</span>
+                                <span *ngIf="loggedin=='false'" class="vote">&nbsp;&nbsp;<button
+                                        class=" btn btn-outline-danger btn-sm disabled"> &#11167; </button></span>
+                                <span *ngIf="loggedin=='true'"><span class="vote">&nbsp;&nbsp;<button
+                                            (click)="downvote(p)" *ngIf="p.down=='false'"
+                                            class=" btn btn-outline-danger btn-sm"> &#11167;
+                                        </button></span></span>
+                                <span *ngIf="loggedin=='true'"><span class="vote">&nbsp;&nbsp;<button
+                                            (click)="downvote(p)" *ngIf="p.down=='true'" class=" btn btn-danger btn-sm">
+                                            &#11167;
+                                        </button></span></span>
+                                <span style="margin-left: 10px;">
+                                    <button (click)="viewpost(p)" routerLink="/viewthread"
+                                        class="btn btn-warning btn-sm">View Post</button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="posted" style="text-align: right;"> Posted by : <a (click)="posteduser(p.userid)">
+                                {{p.gamertag}} </a> </div>
+                        <div style="text-align: right;"> Posted on : {{p.datetime}} </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-2 cardbox right">
+            <app-search></app-search>
+            <app-contributors></app-contributors>
+        </div>
+    </div>
+</body>

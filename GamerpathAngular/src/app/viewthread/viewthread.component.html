@@ -1,0 +1,167 @@
+<head>
+    <meta charset="ISO-8859-1">
+    <link rel="stylesheet" href="../../assets/styling.css">
+</head>
+<app-navbar></app-navbar>
+
+<body style="overflow-x: hidden;margin-top: 10px;">
+    <div class="row">
+        <div class="col-lg-2 cardbox left" id="info">
+            <app-user></app-user>
+            <app-categories></app-categories>
+        </div>
+        <div class="col-lg-7 cardbox middle">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" id="home" data-toggle="tab" routerLink="/homepage">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" routerLink="/yourposts">Your
+                        Posts</a>
+                </li>
+                <span style="position: absolute; right: 5px;">
+                    <button type="button" *ngIf="loggedin == 'true'" routerLink="/newpost"
+                        class="btn btn-outline-info">+
+                        New Post</button>
+                    <button type="button" *ngIf="loggedin == 'false'" routerLink="/newpost"
+                        class="btn btn-outline-info disabled">+
+                        New Post</button>
+                </span>
+                <li class="nav-item dropdown" style="position: absolute; right: 140px;">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                        aria-expanded="false">Sort By </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" (click)="popular()" data-toggle="tab" href="#viewthread">Popularity</a>
+                        <a class="dropdown-item" (click)="newest()" data-toggle="tab" href="#viewthread">Newest
+                            First</a>
+                    </div>
+                </li>
+            </ul>
+
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade show active" id="viewthread">
+                    <div class="post" style="width: 100%;">
+                        <table style="padding: 5px">
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 5px;padding-right: 50px;">
+                                        <span class="badge badge-primary">Score</span>
+                                        <br>{{post.score}} </td>
+                                    <td>
+                                        <h5>{{post.postinfo}}</h5>
+                                        <div *ngIf="post.image!=null" style="margin-top: 20px;">
+                                            <img style="height: 225px;width: 500px;" alt="image"
+                                                [src]="'data:image/png;base64,'+image" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            
+                        </table>
+                        <div class="badges">
+                            <span *ngFor="let tag of post.tags" (click)="tagname(tag)"
+                                class="badge badge-pill badge-info tags">{{tag}}</span>
+                        </div>
+                        <div class="votes">
+                            <div style="margin-left: 20px;">
+                                <span *ngIf="loggedin=='false'" class="vote"><button
+                                        class=" btn btn-outline-success btn-sm disabled"> &#11165;
+                                    </button>&nbsp;&nbsp;</span>
+                                <span *ngIf="loggedin=='true'"><span *ngIf="post.up=='false'" class=" vote"><button
+                                            (click)="upvotepost(post)" class=" btn btn-outline-success btn-sm"> &#11165;
+                                        </button>&nbsp;&nbsp;</span></span>
+                                <span *ngIf="loggedin=='true'"><span *ngIf="post.up=='true'" class="vote"><button
+                                            (click)="upvotepost(post)" class=" btn btn-success btn-sm"> &#11165;
+                                        </button>&nbsp;&nbsp; </span></span>
+                                <span class="badge badge-secondary">{{post.score}}</span>
+                                <span *ngIf="loggedin=='false'" class="vote">&nbsp;&nbsp;<button
+                                        class=" btn btn-outline-danger btn-sm disabled"> &#11167; </button></span>
+                                <span *ngIf="loggedin=='true'"><span class="vote">&nbsp;&nbsp;<button
+                                            (click)="downvotepost(post)" *ngIf="post.down=='false'"
+                                            class=" btn btn-outline-danger btn-sm"> &#11167;
+                                        </button></span></span>
+                                <span *ngIf="loggedin=='true'"><span class="vote">&nbsp;&nbsp;<button
+                                            (click)="downvotepost(post)" *ngIf="post.down=='true'"
+                                            class=" btn btn-danger btn-sm"> &#11167;
+                                        </button></span></span>
+                            </div>
+                        </div>
+                        <div class="posted" style="text-align: right;"> Posted by : <a (click)="posteduser(post.userid)">
+                                {{post.gamertag}} </a> </div>
+                        <div style="text-align: right;"> Posted on : {{post.datetime}} </div>
+                    </div>
+
+                    <div *ngIf="loggedin=='false'" class="alert alert-dismissible alert-primary">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>Log in to reply</strong>
+                    </div>
+                    <div *ngIf="loggedin=='true'">
+                        <form id="newreplyform">
+                            <div class="form-group">
+                                <label for="reply" style="font-weight: bold;color: white;margin-top: 3px;">Post a reply</label>
+                                <textarea name="reply" [(ngModel)]="reply.replyinfo" class="form-control"
+                                    rows="3"></textarea>
+                            </div>
+                            <button type="button" (click)="addreply()" class="btn btn-primary">Submit reply</button>
+                        </form>
+                    </div>
+                    <div *ngIf="replied" class="alert alert-dismissible alert-success">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>Yay !</strong> Reply submitted succesfully <a routerLink="/dummy"> click to view</a>
+                    </div>
+                    <div *ngIf="replyinfo" class="alert alert-dismissible alert-warning">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <p class="mb-0">Reply cannot be null </p>
+                    </div>
+                    <div class="reply cardbox" *ngFor="let r of replies" style="width: 100%;">
+                        <table style="padding: 5px">
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 5px;padding-right: 50px;">
+                                        <span class="badge badge-primary">Score</span>
+                                        <br>{{r.score}} </td>
+                                    <td>
+                                        <h5>{{r.replyinfo}}</h5>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                        <div class="votes">
+                            <div style="margin-left: 20px;">
+                                <span *ngIf="loggedin=='false'" class="vote"><button
+                                        class=" btn btn-outline-success btn-sm disabled"> &#11165;
+                                    </button>&nbsp;&nbsp;</span>
+                                <span *ngIf="loggedin=='true'"><span *ngIf="r.up=='false'" class=" vote"><button
+                                            (click)="upvote(r)" class=" btn btn-outline-success btn-sm"> &#11165;
+                                        </button>&nbsp;&nbsp;</span></span>
+                                <span *ngIf="loggedin=='true'"><span *ngIf="r.up=='true'" class="vote"><button
+                                            (click)="upvote(r)" class=" btn btn-success btn-sm"> &#11165;
+                                        </button>&nbsp;&nbsp; </span></span>
+                                <span class="badge badge-secondary">{{r.score}}</span>
+                                <span *ngIf="loggedin=='false'" class="vote">&nbsp;&nbsp;<button
+                                        class=" btn btn-outline-danger btn-sm disabled"> &#11167; </button></span>
+                                <span *ngIf="loggedin=='true'"><span class="vote">&nbsp;&nbsp;<button
+                                            (click)="downvote(r)" *ngIf="r.down=='false'"
+                                            class=" btn btn-outline-danger btn-sm"> &#11167;
+                                        </button></span></span>
+                                <span *ngIf="loggedin=='true'"><span class="vote">&nbsp;&nbsp;<button
+                                            (click)="downvote(r)" *ngIf="r.down=='true'" class=" btn btn-danger btn-sm">
+                                            &#11167;
+                                        </button></span></span>
+                            </div>
+                        </div>
+                        <div class="posted" style="text-align: right;"> Posted by : <a (click)="posteduser(r.userid)">
+                                {{r.gamertag}} </a> </div>
+                        <div style="text-align: right;"> Posted on : {{r.datetime}} </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 cardbox right">
+            <app-search></app-search>
+            <app-contributors></app-contributors>
+        </div>
+    </div>
+</body>

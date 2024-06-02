@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Login / Sign Up</title>
+    <link rel="stylesheet" href="../../assets/styling.css">
+</head>
+<meta charset="ISO-8859-1">
+<title>Login/SignUp</title>
+
+<body class="loginbody" style="overflow: auto;">
+    <div class="container">
+        <div class="fontstyle" style="text-align: center; margin-top: 20PX; font-size: x-large;color: white;">WELCOME
+            TO GamerPath
+        </div>
+
+        <div *ngIf="loginerror" class="alert alert-dismissible alert-danger">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Oh snap! </strong> Invalid Email or Password and try
+            Logging in again.
+        </div>
+    <div *ngIf="signuperror" class="alert alert-dismissible alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <h4 class="alert-heading">Hey Gamer!</h4>
+        <p class="mb-0">Gamer with this email already exist try logging in instead </p>
+    </div>
+
+        <div class="row" style="margin: 5%">
+            <div class="col-md-4 offset-1 formbox">
+                <div style="text-align: center; font-weight: bold;  color: rgb(10, 180, 10); font-size: 25px">Login
+                </div>
+
+                <form [formGroup]="loginForm" id="loginform">
+
+                    <div class="form-group">
+                        <label>Email address</label> <input type="email" class="form-control form-control-sm"
+                            formControlName="loginemail" placeholder="Enter email"
+                            placeholder="Enter email"
+                            [ngClass]="{ 'is-invalid': entry && emsg.loginemail.errors }" />
+                        <div *ngIf="entry && emsg.loginemail.errors" class="invalid-feedback">
+                            <div *ngIf="emsg.loginemail.errors.required">Email is required</div>
+                            <div *ngIf="emsg.loginemail.errors.email">Enter a valid email address</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Password</label> <input type="password" class="form-control form-control-sm "
+                            formControlName="loginpassword" placeholder="Password"
+                            [ngClass]="{ 'is-invalid': entry && emsg.loginpassword.errors }" />
+                        <div *ngIf="entry && emsg.loginpassword.errors" class="invalid-feedback">
+                            <div *ngIf="emsg.loginpassword.errors.required">Password is required</div>
+                        </div>
+                    </div>
+                    <div align="center" style="padding-top: 30px">
+                        <button (click)="onLogin()" class="btn btn-secondary">Login</button>
+                    </div>
+                    <div style="text-align: center; margin-top: 20PX;">New User?
+                        Sign Up</div>
+                </form>
+            </div>
+
+
+            <div class="col-md-4 offset-2 formbox">
+
+                <form [formGroup]="signupForm">
+                    <div style="text-align: center; font-weight: bold; color: rgb(10, 180, 10); font-size: 25px">Sign
+                        Up
+                    </div>
+
+                    <div class="form-group">
+                        <label>Gamer Tag</label> <input type="text" class="form-control form-control-sm"
+                            formControlName="gamertag" placeholder="Enter Gamer Tag"
+                            [ngClass]="{ 'is-invalid': submission && errormessage.gamertag.errors }" />
+                        <div *ngIf="submission && errormessage.gamertag.errors" class="invalid-feedback">
+                            <div *ngIf="errormessage.gamertag.errors.required">Gamertag is required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Name</label> <input type="text" class="form-control form-control-sm "
+                            formControlName="name" placeholder="Enter Full Name"
+                            [ngClass]="{ 'is-invalid': submission && errormessage.name.errors }" />
+                        <div *ngIf="submission && errormessage.name.errors" class="invalid-feedback">
+                            <div *ngIf="errormessage.name.errors.required">Name is required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email Address</label> <input type="email" class="form-control form-control-sm"
+                            formControlName="email" placeholder="Enter email"
+                            [ngClass]="{ 'is-invalid': submission && errormessage.email.errors }" />
+                        <div *ngIf="submission && errormessage.email.errors" class="invalid-feedback">
+                            <div *ngIf="errormessage.email.errors.required">Email is required</div>
+                            <div *ngIf="errormessage.email.errors.email">Enter a valid email address</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Password</label> <input type="password" class="form-control form-control-sm "
+                            formControlName="password" id="idpassword" placeholder="Password"
+                            [ngClass]="{ 'is-invalid': submission && errormessage.password.errors }" />
+                        <div *ngIf="submission && errormessage.password.errors" class="invalid-feedback">
+                            <div *ngIf="errormessage.password.errors.required">Password is required</div>
+                            <div *ngIf="errormessage.password.errors.minlength">Password must be at least 8 characters
+                            </div>
+                            <div *ngIf="errormessage.password.errors.pattern">Must contain 1 upper and a lower case with
+                                a number and special character </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Confirm Password</label> <input type="password" class="form-control form-control-sm "
+                            formControlName="confirmpassword" placeholder="Confirm Password"
+                            [ngClass]="{ 'is-invalid': submission && errormessage.confirmpassword.errors }" />
+                        <div *ngIf="submission && errormessage.confirmpassword.errors" class="invalid-feedback">
+                            <div *ngIf="errormessage.confirmpassword.errors.required">Confirm password is required</div>
+                            <div *ngIf="errormessage.confirmpassword.errors.mustMatch">Password Mismatch</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                            <label>Security Question</label>
+                        <select formControlName="question" class="form-control form-control-sm " [ngClass]="{ 'is-invalid': submission && errormessage.question.errors }" >
+                        <option value="">select a security question</option>
+                        <option value="Which place you were born ?">Which place you were born ?</option>
+                        <option value="What's the name of your first school">What's the name of your first school</option>
+                        <option value="What's your first pet name">What's your first pet name</option>
+                        <option value="Who is your best friend?">Who is your best friend?</option>
+                        </select>
+                        <div *ngIf="submission && errormessage.question.errors" class="invalid-feedback">
+                            <div *ngIf="errormessage.question.errors.required">Please select a question</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                         <input type="text" class="form-control form-control-sm "
+                            formControlName="answer" placeholder="your answer"
+                            [ngClass]="{ 'is-invalid': submission && errormessage.answer.errors }" />
+                        <div *ngIf="submission && errormessage.answer.errors" class="invalid-feedback">
+                            <div *ngIf="errormessage.answer.errors.required">Please provide your answer</div>
+                        </div>
+                    </div>
+
+                    <div class="custom-control custom-radio">
+                        <input id="male" type="radio" class="custom-control-input" value="male"
+                            (change)="change('male')" formControlName="gender"
+                            [ngClass]="{ 'is-invalid': submission && errormessage.gender.errors }" />
+                        <label class="custom-control-label" for="male">Male</label>
+                    </div>
+
+                    <div class="custom-control custom-radio">
+                        <input id="female" type="radio" class="custom-control-input" (change)="change('female')"
+                            formControlName="gender" value="female"
+                            [ngClass]="{ 'is-invalid': submission && errormessage.gender.errors }">
+                        <label class="custom-control-label" for="female">Female</label>
+                        <div *ngIf="submission && errormessage.gender.errors" class="invalid-feedback">
+                            <div *ngIf="errormessage.gender.errors.required">Gender detail is required</div>
+                        </div>
+                    </div>
+
+
+
+                    <div align="center" style="padding-top: 30px;">
+                        <button class="btn btn-secondary" (click)="onSignup()">Sign
+                            Up
+                        </button>&nbsp;
+                        <button class="btn btn-secondary" (click)="onReset()">Reset
+                        </button>
+                    </div>
+
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+
+</html>

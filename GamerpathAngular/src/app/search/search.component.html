@@ -1,0 +1,15 @@
+<head>
+    <meta charset="ISO-8859-1">
+    <link rel="stylesheet" href="../../assets/styling.css">
+</head>
+<div>
+    <form id="searchform">
+        <div class="form-group">
+            <input type="text" class="form-control" style="margin-bottom: 3px;" name="name" placeholder="Search Name"
+                [(ngModel)]="sName">
+            <div align="center">
+                <button class="btn btn-secondary" routerLink="/friends" (click)="searchName()">Search</button>
+            </div>
+        </div>
+    </form>
+</div>
